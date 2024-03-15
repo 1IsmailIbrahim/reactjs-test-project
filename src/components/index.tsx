@@ -29,7 +29,7 @@ const ProductCard = ({ product }: IProps) => {
         <p className="text-zinc-600 text-sm">{textSlicer(description)}</p>
         <div className="flex mt-2 mb-3 space-x-2">
           {renderColors}
-          <span className="block w-4 h-4 cursor-none"></span>
+          <span className="block w-4 h-4 cursor-default"></span>
         </div>
         <div className="flex justify-between items-center">
           <span className="font-bold text-indigo-700">${price}</span>
