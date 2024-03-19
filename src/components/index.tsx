@@ -3,18 +3,19 @@ import { textSlicer } from "../utils/functions";
 import Image from "./Image";
 import Button from "./ui/Button";
 import "./index.scss";
+import ItemColors from "./ItemColors";
 
 interface IProps {
   product: IProduct;
 }
 const ProductCard = ({ product }: IProps) => {
   const { colors, category, description, imageURL, price, title } = product;
+
+  // ** Render
   const renderColors = colors.map((color) => (
-    <span
-      style={{ backgroundColor: `${color}` }}
-      className="block w-4 h-4 rounded-full cursor-pointer"
-    ></span>
+    <ItemColors color={color} key={color}></ItemColors>
   ));
+
   return (
     <div className="flex flex-col justify-between shadow-md max-w-sm md:max-w-md lg:max-w-lg my-2 mx-auto product-card border border-gray-100 p-2 box-border">
       <div>
@@ -27,7 +28,7 @@ const ProductCard = ({ product }: IProps) => {
       <div>
         <h3 className="text-lg my-2 font-medium">{title}</h3>
         <p className="text-zinc-600 text-sm">{textSlicer(description)}</p>
-        <div className="flex mt-2 mb-3 space-x-2">
+        <div className="flex mt-3 mb-3 space-x-2">
           {renderColors}
           <span className="block w-4 h-4 cursor-default"></span>
         </div>
