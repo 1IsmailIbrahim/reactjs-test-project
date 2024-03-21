@@ -7,22 +7,36 @@ import ItemColors from "./ItemColors";
 
 interface IProps {
   product: IProduct;
+  setProductEditModal: (product: IProduct) => void;
+  openEditModal: () => void;
+  setEditTempColor: (val: string[]) => void;
 }
-const ProductCard = ({ product }: IProps) => {
+const ProductCard = ({
+  product,
+  setProductEditModal,
+  openEditModal,
+  setEditTempColor,
+}: IProps) => {
   const { colors, category, description, imageURL, price, title } = product;
 
   // ** Render
   const renderColors = colors.map((color) => (
     <ItemColors color={color} key={color}></ItemColors>
   ));
-
+  // ** Handler
+  const onEdit = () => {
+    setEditTempColor(product.colors);
+    setProductEditModal(product);
+    openEditModal();
+  };
+  // console.log(productEditModalColors);
   return (
     <div className="flex flex-col justify-between shadow-md max-w-sm md:max-w-md lg:max-w-lg my-2 mx-auto product-card border border-gray-100 p-2 box-border">
-      <div>
+      <div className="max-h-60 lg:max-h-44 overflow-hidden">
         <Image
           Url={imageURL}
           alt={"Product-Pic"}
-          className="w-full rounded-md select-none object-cover"
+          className="w-full h-full rounded-md select-none object-cover"
         />
       </div>
       <div>
@@ -33,7 +47,9 @@ const ProductCard = ({ product }: IProps) => {
           <span className="block w-4 h-4 cursor-default"></span>
         </div>
         <div className="flex justify-between items-center">
-          <span className="font-bold text-indigo-700">${price}</span>
+          <span className="font-bold text-indigo-700">
+            ${Number(price).toLocaleString()}
+          </span>
           <div className="flex items-center">
             <Image
               Url={category.imageURL}
@@ -47,7 +63,7 @@ const ProductCard = ({ product }: IProps) => {
           <Button
             className="bg-indigo-700 hover:bg-indigo-800"
             width="w-full"
-            onClick={() => console.log("Clicked")}
+            onClick={() => onEdit()}
           >
             Edit
           </Button>

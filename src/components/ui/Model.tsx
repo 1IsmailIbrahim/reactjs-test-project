@@ -24,6 +24,10 @@ const Model = ({ isOpen, closeModal, title, children }: IProps) => {
           >
             <div className="fixed inset-0 bg-black/25" />
           </Transition.Child>
+          <div
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm"
+            aria-hidden="true"
+          />
 
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">

@@ -1,5 +1,5 @@
 export interface IProduct {
-  id?: string | undefined;
+  id?: string;
   title: string;
   description: string;
   imageURL: string;
@@ -23,4 +23,9 @@ export interface IProductValid {
   description: string;
   imageURL: string;
   price: string;
+}
+export interface ICategory {
+  id: string;
+  name: string;
+  imageURL: string;
 }
