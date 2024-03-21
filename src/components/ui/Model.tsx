@@ -6,9 +6,16 @@ interface IProps {
   closeModal: () => void;
   title?: string;
   children: ReactNode;
+  description?: string;
 }
 
-const Model = ({ isOpen, closeModal, title, children }: IProps) => {
+const Model = ({
+  isOpen,
+  closeModal,
+  title,
+  children,
+  description,
+}: IProps) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -49,6 +56,12 @@ const Model = ({ isOpen, closeModal, title, children }: IProps) => {
                       {title}
                     </Dialog.Title>
                   )}
+                  <Dialog.Title
+                    as="h4"
+                    className="text-md font-sm leading-6 text-gray-600 my-2"
+                  >
+                    {description}
+                  </Dialog.Title>
                   <div className="mt-4">{children}</div>
                 </Dialog.Panel>
               </Transition.Child>

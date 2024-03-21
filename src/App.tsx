@@ -10,6 +10,7 @@ import ErrorMessage from "./components/ErrorMessage";
 import ItemColors from "./components/ItemColors";
 import { v4 as uuid } from "uuid";
 import Select from "./components/ui/Select";
+import toast, { Toaster } from "react-hot-toast";
 
 const App = () => {
   const defaultProduct = {
@@ -30,6 +31,7 @@ const App = () => {
     useState<IProduct>(defaultProduct);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
   const [tempColor, setTempColor] = useState<string[]>([]);
   const [errors, setErrors] = useState({
     title: "",
@@ -44,6 +46,9 @@ const App = () => {
 
   const closeEditModal = () => setIsOpenEditModal(false);
   const openEditModal = () => setIsOpenEditModal(true);
+
+  const closeConfirmDelete = () => setIsOpenConfirmDelete(false);
+  const openConfirmDelete = () => setIsOpenConfirmDelete(true);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -104,6 +109,7 @@ const App = () => {
     setProduct(defaultProduct);
     setTempColor([]);
     closeModal();
+    toast.success("Product is added successfully!");
   };
 
   // FOR EDIT FORM
@@ -136,6 +142,26 @@ const App = () => {
     setProductEditModal(defaultProduct);
     setTempColor([]);
     closeEditModal();
+    toast.success("Product is updated successfully!", {
+      style: {
+        backgroundColor: "#F5F515",
+      },
+    });
+  };
+
+  // FOR DELET PRODUCT
+  const removeProductHandler = (): void => {
+    const deleteProductFilter = products.filter(
+      (product) => product.id !== productEditModal.id
+    );
+    setProducts(deleteProductFilter);
+    closeConfirmDelete();
+    toast.success("Product is deleted successfully!", {
+      style: {
+        backgroundColor: "#E12F2F",
+        color: "white",
+      },
+    });
   };
 
   // ** Render
@@ -146,6 +172,7 @@ const App = () => {
       setProductEditModal={setProductEditModal}
       openEditModal={openEditModal}
       setEditTempColor={setTempColor}
+      openConfirmDelete={openConfirmDelete}
     />
   ));
 
@@ -218,6 +245,7 @@ const App = () => {
           {renderProductList}
         </div>
       </div>
+
       {/* ADD PRODUCT MODAL */}
       <Model isOpen={isOpen} closeModal={closeModal} title="ADD A NEW PRODUCT">
         <form className="space-y-3" onSubmit={submitHandler}>
@@ -291,6 +319,31 @@ const App = () => {
           </div>
         </form>
       </Model>
+
+      {/* Delete THIS PRODUCT */}
+      <Model
+        isOpen={isOpenConfirmDelete}
+        closeModal={closeConfirmDelete}
+        title="Delete Product"
+        description="If you delete this product, you will lose all data about it, and you will not be able to return it again."
+      >
+        <div className="flex space-x-3 mt-5 mb-3">
+          <Button
+            className="bg-red-700 hover:bg-red-800"
+            onClick={removeProductHandler}
+          >
+            Delete
+          </Button>
+          <Button
+            className="bg-zinc-700 hover:bg-zinc-800"
+            onClick={closeConfirmDelete}
+          >
+            Close
+          </Button>
+        </div>
+      </Model>
+
+      <Toaster />
     </>
   );
 };

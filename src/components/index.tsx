@@ -9,6 +9,7 @@ interface IProps {
   product: IProduct;
   setProductEditModal: (product: IProduct) => void;
   openEditModal: () => void;
+  openConfirmDelete: () => void;
   setEditTempColor: (val: string[]) => void;
 }
 const ProductCard = ({
@@ -16,6 +17,7 @@ const ProductCard = ({
   setProductEditModal,
   openEditModal,
   setEditTempColor,
+  openConfirmDelete,
 }: IProps) => {
   const { colors, category, description, imageURL, price, title } = product;
 
@@ -28,6 +30,10 @@ const ProductCard = ({
     setEditTempColor(product.colors);
     setProductEditModal(product);
     openEditModal();
+  };
+  const onDelete = () => {
+    setProductEditModal(product);
+    openConfirmDelete();
   };
   // console.log(productEditModalColors);
   return (
@@ -67,7 +73,11 @@ const ProductCard = ({
           >
             Edit
           </Button>
-          <Button className="bg-red-600 hover:bg-red-700" width="w-full">
+          <Button
+            className="bg-red-600 hover:bg-red-700"
+            width="w-full"
+            onClick={() => onDelete()}
+          >
             Delete
           </Button>
         </div>
