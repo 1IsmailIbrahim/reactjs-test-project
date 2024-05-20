@@ -1,6 +1,6 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import ProductCard from "./components";
-import Model from "./components/ui/Model";
+import Model from "./components/ui/Modal";
 import { categories, colors, formInputsList, productList } from "./data";
 import Button from "./components/ui/Button";
 import Input from "./components/ui/Input";
@@ -45,10 +45,10 @@ const App = () => {
   const openModal = () => setIsOpen(true);
 
   const closeEditModal = () => setIsOpenEditModal(false);
-  const openEditModal = () => setIsOpenEditModal(true);
+  const openEditModal = useCallback(() => setIsOpenEditModal(true), []);
 
-  const closeConfirmDelete = () => setIsOpenConfirmDelete(false);
-  const openConfirmDelete = () => setIsOpenConfirmDelete(true);
+  const closeConfirmModal = () => setIsOpenConfirmDelete(false);
+  const openConfirmModal = useCallback(() => setIsOpenConfirmDelete(true), []);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -155,7 +155,7 @@ const App = () => {
       (product) => product.id !== productEditModal.id
     );
     setProducts(deleteProductFilter);
-    closeConfirmDelete();
+    closeConfirmModal();
     toast.success("Product is deleted successfully!", {
       style: {
         backgroundColor: "#E12F2F",
@@ -172,7 +172,7 @@ const App = () => {
       setProductEditModal={setProductEditModal}
       openEditModal={openEditModal}
       setEditTempColor={setTempColor}
-      openConfirmDelete={openConfirmDelete}
+      openConfirmDelete={openConfirmModal}
     />
   ));
 
@@ -323,7 +323,7 @@ const App = () => {
       {/* Delete THIS PRODUCT */}
       <Model
         isOpen={isOpenConfirmDelete}
-        closeModal={closeConfirmDelete}
+        closeModal={closeConfirmModal}
         title="Delete Product"
         description="If you delete this product, you will lose all data about it, and you will not be able to return it again."
       >
@@ -336,7 +336,7 @@ const App = () => {
           </Button>
           <Button
             className="bg-zinc-700 hover:bg-zinc-800"
-            onClick={closeConfirmDelete}
+            onClick={closeConfirmModal}
           >
             Close
           </Button>

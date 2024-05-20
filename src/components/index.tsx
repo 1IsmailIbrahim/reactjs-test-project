@@ -4,6 +4,7 @@ import Image from "./Image";
 import Button from "./ui/Button";
 import "./index.scss";
 import ItemColors from "./ItemColors";
+import { memo } from "react";
 
 interface IProps {
   product: IProduct;
@@ -86,4 +87,4 @@ const ProductCard = ({
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);
