@@ -50,17 +50,12 @@ const App = () => {
   const closeConfirmModal = () => setIsOpenConfirmDelete(false);
   const openConfirmModal = useCallback(() => setIsOpenConfirmDelete(true), []);
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    setProduct({
-      ...product,
-      [name]: value,
-    });
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
-  };
+
+    setProduct((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+  }, []);
 
   // FOR EDIT FORM
   const onChangeEditHandler = (e: ChangeEvent<HTMLInputElement>) => {
